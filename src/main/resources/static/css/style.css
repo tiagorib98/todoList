@@ -1,0 +1,95 @@
+
+
+body {
+    background-color: #000000; /* Fundo preto */
+    color: #ffffff; /* Letras brancas */
+    font-family: 'DotGothic16', sans-serif; /* A nossa fonte especial */
+    font-size: 11px;
+    margin: 40px;
+    text-transform: uppercase; /* Força tudo a maiúsculas como nos terminais antigos */
+}
+
+/* Estilo dos Títulos */
+h1, h2 {
+    border-bottom: 2px dashed #ffffff; /* Linha tracejada por baixo */
+    padding-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.prompt::before {
+    content: "> ";
+    color: #ff0033;
+}
+
+/* Caixas de texto, botão do calendário e caixa de seleção */
+input[type="text"], input[type="date"], select {
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 11px;
+    padding: 8px;
+    margin-right: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color-scheme: dark;
+}
+
+/* Tirar a borda feia quando selecionamos as caixas */
+input:focus, select:focus {
+    outline: none;
+    border: 1px solid #ff0033;
+}
+
+/* Para o menu da prioridade ficar com fundo preto quando abre */
+option {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* Botões do sistema */
+button {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    font-family: 'DotGothic16', sans-serif;
+    font-size:11px;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.2s;
+}
+
+/* Quando passamos o rato por cima dos botões (Efeito de inversão) */
+button:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* Botão apagar em vermelho */
+.btn-apagar:hover {
+    background-color: #ff0033;
+    border-color: #ff0033;
+    color: #ffffff;
+}
+
+/* A lista de tarefas */
+ul {
+    list-style-type: none; /* Tira as bolinhas da lista */
+    padding: 0;
+}
+
+li {
+    border: 1px solid #333333;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Detalhe da data */
+.data-prazo {
+    color: #888888;
+    font-size: 1em;
+}

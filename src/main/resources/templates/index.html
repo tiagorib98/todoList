@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TERMINAL: TO-DO</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+<h1 class="prompt">ToDo List</h1>
+
+<br>
+
+<form th:action="@{/add}" method="post">
+    <span>> NOVA_TAREFA: </span>
+    <input type="text" name="description" placeholder="ESCREVE AQUI..." required autocomplete="off">
+    <input type="date" name="dueDate" required>
+
+    <select name="priority" required>
+        <option value="1">ALTA</option>
+        <option value="2" selected>MÉDIA</option>
+        <option value="3">BAIXA</option>
+    </select>
+
+    <button type="submit">[ INSERIR ]</button>
+</form>
+
+<br><br>
+
+<h2>> REGISTO_DE_DADOS:</h2>
+
+<div style="margin-bottom: 20px; margin-top: 10px; font-size: 0.9em;">
+    <span>> FILTROS: </span>
+    <a th:href="@{/}" th:style="${!isFiltered && !isTodayFilter ? 'color: #ffffff; background-color: #333333;' : 'color: #888888; text-decoration: none;'}" style="padding: 2px 6px; margin-right: 5px;">[ TODAS ]</a>
+    <a th:href="@{/(hide=true)}" th:style="${isFiltered ? 'color: #ffff00; background-color: #333333;' : 'color: #888888; text-decoration: none;'}" style="padding: 2px 6px; margin-right: 5px;">[ PENDENTES ]</a>
+    <a th:href="@{/(today=true)}" th:style="${isTodayFilter ? 'color: #00ffff; background-color: #333333;' : 'color: #888888; text-decoration: none;'}" style="padding: 2px 6px;">[ HOJE ]</a>
+</div>
+
+<p th:if="${#lists.isEmpty(tasks)}" style="color: #ff0033;">
+    [!] NENHUM REGISTO ENCONTRADO NO SISTEMA.
+</p>
+
+<ul>
+    <li th:each="task : ${tasks}" th:id="'task-' + ${task.id}" style="display: block;">
+
+        <div th:id="'view-' + ${task.id}" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <span th:text="${task.priority == 1 ? '[ALTA] ' : (task.priority == 2 ? '[MÉDIA] ' : '[BAIXA] ')}"
+                      th:style="${task.priority == 1 ? 'color: #ff0033;' : (task.priority == 2 ? 'color: #ffff00;' : 'color: #00ff00;')}">
+                </span>
+
+                <span th:id="'text-' + ${task.id}" th:text="'> ' + ${task.description}"
+                      th:style="${task.finished ? 'text-decoration: line-through; color: #555555;' : ''}">
+                </span>
+
+                <span class="data-prazo" th:text="' [PRAZO: ' + ${task.dueDate} + ']'"></span>
+            </div>
+
+            <div>
+                <button th:onclick="'completarTarefa(' + ${task.id} + ', this)'"
+                        th:text="${task.finished ? '[ DESFAZER ]' : '[ CONCLUIR ]'}"></button>
+
+                <button th:onclick="'mostrarEdicao(' + ${task.id} + ')'">[ EDITAR ]</button>
+
+                <button class="btn-apagar" th:onclick="'apagarTarefa(' + ${task.id} + ')'">[ APAGAR ]</button>
+            </div>
+        </div>
+
+        <div th:id="'edit-' + ${task.id}" style="display: none; width: 100%;">
+            <form th:action="@{/edit/{id}(id=${task.id})}" method="post" style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+
+                <div>
+                    <span style="color: #ffff00;">> A_EDITAR: </span>
+                    <input type="text" name="description" th:value="${task.description}" required autocomplete=\"off\">
+                    <input type="date" name="dueDate" th:value="${task.dueDate}" required>
+
+                    <select name="priority" required>
+                        <option value="1" th:selected="${task.priority == 1}">ALTA</option>
+                        <option value="2" th:selected="${task.priority == 2}">MÉDIA</option>
+                        <option value="3" th:selected="${task.priority == 3}">BAIXA</option>
+                    </select>
+                </div>
+
+                <div>
+                    <button type="submit" style="color: #00ff00; border-color: #00ff00;">[ GUARDAR ]</button>
+                    <button type="button" class="btn-apagar" th:onclick="'cancelarEdicao(' + ${task.id} + ')'">[ CANCELAR ]</button>
+                </div>
+            </form>
+        </div>
+
+    </li>
+</ul>
+
+<script th:src="@{/js/app.js}"></script>
+
+</body>
+</html>
+
